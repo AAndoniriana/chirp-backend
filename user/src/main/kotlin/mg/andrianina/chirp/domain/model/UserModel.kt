@@ -1,4 +1,4 @@
-package mg.andrianina.user.domain.model
+package mg.andrianina.chirp.domain.model
 
 import java.util.UUID
 
