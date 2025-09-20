@@ -1,5 +1,6 @@
 package mg.andrianina.chirp.api.exception
 
+import mg.andrianina.chirp.domain.exceptions.InvalidTokenException
 import mg.andrianina.chirp.domain.exceptions.UserAlreadyExistException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,6 +18,15 @@ class AuthExceptionHandler {
         e: UserAlreadyExistException
     ) = mapOf(
         "code" to "USER_EXIST",
+        "message" to e.message
+    )
+
+    @ExceptionHandler(UserAlreadyExistException::class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    fun onInvalidTokenException(
+        e: InvalidTokenException
+    ) = mapOf(
+        "code" to "INVALID_TOKEN",
         "message" to e.message
     )
 
