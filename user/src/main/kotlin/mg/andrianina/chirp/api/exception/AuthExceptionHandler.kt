@@ -21,7 +21,7 @@ class AuthExceptionHandler {
         "message" to e.message
     )
 
-    @ExceptionHandler(UserAlreadyExistException::class)
+    @ExceptionHandler(InvalidTokenException::class)
     @ResponseStatus(HttpStatus.CONFLICT)
     fun onInvalidTokenException(
         e: InvalidTokenException

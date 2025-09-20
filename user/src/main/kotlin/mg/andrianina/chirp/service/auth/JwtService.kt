@@ -6,9 +6,11 @@ import io.jsonwebtoken.security.Keys
 import mg.andrianina.chirp.domain.exceptions.InvalidTokenException
 import mg.andrianina.chirp.domain.model.UserId
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 import java.util.Date
 import java.util.UUID
 
+@Service
 class JwtService(
     @param:Value($$"${jwt.secret}") private val secret: String,
     @param:Value($$"${jwt.expiration-minutes}") private val expirationMinutes: Int,
@@ -80,7 +82,7 @@ class JwtService(
                 .build()
                 .parseSignedClaims(rawToken)
                 .payload
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }
