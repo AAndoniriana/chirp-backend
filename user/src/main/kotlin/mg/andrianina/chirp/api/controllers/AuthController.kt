@@ -1,6 +1,8 @@
 package mg.andrianina.chirp.api.controllers
 
 import jakarta.validation.Valid
+import mg.andrianina.chirp.api.dto.AuthenticatedUserDto
+import mg.andrianina.chirp.api.dto.LoginRequest
 import mg.andrianina.chirp.api.dto.RegisterRequest
 import mg.andrianina.chirp.api.dto.UserDto
 import mg.andrianina.chirp.api.mappers.toDto
@@ -22,6 +24,16 @@ class AuthController(private val authService: AuthService) {
             email = body.email,
             password = body.password,
             username = body.username,
+        ).toDto()
+    }
+
+    @PostMapping("/login")
+    fun login(
+        @RequestBody body: LoginRequest
+    ): AuthenticatedUserDto {
+        return authService.login(
+            email = body.email,
+            password = body.password
         ).toDto()
     }
 

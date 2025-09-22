@@ -1,7 +1,9 @@
 package mg.andrianina.chirp.api.exception
 
+import mg.andrianina.chirp.domain.exceptions.InvalidCredentialException
 import mg.andrianina.chirp.domain.exceptions.InvalidTokenException
 import mg.andrianina.chirp.domain.exceptions.UserAlreadyExistException
+import mg.andrianina.chirp.domain.exceptions.UserNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -22,11 +24,29 @@ class AuthExceptionHandler {
     )
 
     @ExceptionHandler(InvalidTokenException::class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     fun onInvalidTokenException(
         e: InvalidTokenException
     ) = mapOf(
         "code" to "INVALID_TOKEN",
+        "message" to e.message
+    )
+
+    @ExceptionHandler(UserNotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun onUserNotFoundException(
+        e: UserNotFoundException
+    ) = mapOf(
+        "code" to "USER_NOT_FOUND",
+        "message" to e.message
+    )
+
+    @ExceptionHandler(InvalidCredentialException::class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    fun onInvalidCredentialException(
+        e: InvalidCredentialException
+    ) = mapOf(
+        "code" to "INVALID_CREDENTIAL",
         "message" to e.message
     )
 
