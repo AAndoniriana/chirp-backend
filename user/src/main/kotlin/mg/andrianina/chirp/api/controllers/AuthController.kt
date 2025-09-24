@@ -3,6 +3,7 @@ package mg.andrianina.chirp.api.controllers
 import jakarta.validation.Valid
 import mg.andrianina.chirp.api.dto.AuthenticatedUserDto
 import mg.andrianina.chirp.api.dto.LoginRequest
+import mg.andrianina.chirp.api.dto.RefreshRequest
 import mg.andrianina.chirp.api.dto.RegisterRequest
 import mg.andrianina.chirp.api.dto.UserDto
 import mg.andrianina.chirp.api.mappers.toDto
@@ -35,6 +36,13 @@ class AuthController(private val authService: AuthService) {
             email = body.email,
             password = body.password
         ).toDto()
+    }
+
+    @PostMapping("/refresh")
+    fun refresh(
+        @RequestBody body: RefreshRequest
+    ): AuthenticatedUserDto {
+        return authService.refreshToken(body.refreshToken).toDto()
     }
 
 }
