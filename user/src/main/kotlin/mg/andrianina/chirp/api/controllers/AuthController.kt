@@ -56,6 +56,13 @@ class AuthController(
         return authService.refreshToken(body.refreshToken).toDto()
     }
 
+    @PostMapping("/logout")
+    fun logout(
+        @RequestBody body: RefreshRequest
+    ) {
+        authService.logout(body.refreshToken)
+    }
+
     @GetMapping("/verify")
     fun verifyEmail(
         @RequestParam token: String,
