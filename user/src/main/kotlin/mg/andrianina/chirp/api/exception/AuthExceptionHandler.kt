@@ -3,6 +3,7 @@ package mg.andrianina.chirp.api.exception
 import mg.andrianina.chirp.domain.exceptions.EmailNotVerifiedException
 import mg.andrianina.chirp.domain.exceptions.InvalidCredentialException
 import mg.andrianina.chirp.domain.exceptions.InvalidTokenException
+import mg.andrianina.chirp.domain.exceptions.SamePasswordException
 import mg.andrianina.chirp.domain.exceptions.UserAlreadyExistException
 import mg.andrianina.chirp.domain.exceptions.UserNotFoundException
 import org.springframework.http.HttpStatus
@@ -30,6 +31,15 @@ class AuthExceptionHandler {
         e: InvalidTokenException
     ) = mapOf(
         "code" to "INVALID_TOKEN",
+        "message" to e.message
+    )
+
+    @ExceptionHandler(SamePasswordException::class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    fun onSamePasswordException(
+        e: SamePasswordException
+    ) = mapOf(
+        "code" to "SAME_PASSWORD",
         "message" to e.message
     )
 
