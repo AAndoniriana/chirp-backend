@@ -1,4 +1,4 @@
-package mg.andrianina.chirp.service.auth
+package mg.andrianina.chirp.service
 
 import mg.andrianina.chirp.domain.exceptions.EmailNotVerifiedException
 import mg.andrianina.chirp.domain.exceptions.InvalidCredentialException

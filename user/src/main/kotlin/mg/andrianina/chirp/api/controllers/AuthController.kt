@@ -7,8 +7,8 @@ import mg.andrianina.chirp.api.dto.RefreshRequest
 import mg.andrianina.chirp.api.dto.RegisterRequest
 import mg.andrianina.chirp.api.dto.UserDto
 import mg.andrianina.chirp.api.mappers.toDto
-import mg.andrianina.chirp.service.auth.AuthService
-import mg.andrianina.chirp.service.auth.EmailVerificationService
+import mg.andrianina.chirp.service.AuthService
+import mg.andrianina.chirp.service.EmailVerificationService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

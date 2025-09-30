@@ -1,4 +1,4 @@
-package mg.andrianina.chirp.service.auth
+package mg.andrianina.chirp.service
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
