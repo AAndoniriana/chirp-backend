@@ -1,5 +1,6 @@
 package mg.andrianina.chirp.service.auth
 
+import mg.andrianina.chirp.domain.exceptions.EmailNotVerifiedException
 import mg.andrianina.chirp.domain.exceptions.InvalidCredentialException
 import mg.andrianina.chirp.domain.exceptions.InvalidTokenException
 import mg.andrianina.chirp.domain.exceptions.UserAlreadyExistException
@@ -25,28 +26,33 @@ class AuthService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
     private val jwtService: JwtService,
-    private val refreshTokenRepository: RefreshTokenRepository
+    private val refreshTokenRepository: RefreshTokenRepository,
+    private val emailVerificationService: EmailVerificationService
 ) {
+    @Transactional
     fun register(
         email: String,
         username: String,
         password: String
     ): User {
+        val trimmedEmail = email.trim()
         val user = userRepository.findByEmailOrUsername(
-            email = email.trim(),
+            email = trimmedEmail,
             username = username.trim(),
         )
         if (user != null) {
             throw UserAlreadyExistException()
         }
 
-        val savedUser = userRepository.save(
+        val savedUser = userRepository.saveAndFlush(
             UserEntity(
-                username = username.trim(),
+                username = trimmedEmail,
                 email = email.trim(),
                 hashedPassword = passwordEncoder.encode(password)
             )
         ).toUser()
+
+        emailVerificationService.createVerificationToken(trimmedEmail)
 
         return savedUser
     }
@@ -60,7 +66,7 @@ class AuthService(
         }
 
         if (!user.hasVerifiedEmail) {
-            //TODO: Check for verified email
+            throw EmailNotVerifiedException()
         }
 
         return  user.id?.let {
