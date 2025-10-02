@@ -8,8 +8,8 @@ spring:
       username: "default"
       password: ${REDIS_PASSWORD}
       port: 14672
-      connect-timeout: 5000ms
-      timeout: 2000ms
+#      connect-timeout: 5000ms
+#      timeout: 2000ms
 
   datasource:
     url: jdbc:postgresql://aws-1-eu-west-3.pooler.supabase.com:6543/postgres

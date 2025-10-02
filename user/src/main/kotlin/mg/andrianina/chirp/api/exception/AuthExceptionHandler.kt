@@ -3,6 +3,7 @@ package mg.andrianina.chirp.api.exception
 import mg.andrianina.chirp.domain.exceptions.EmailNotVerifiedException
 import mg.andrianina.chirp.domain.exceptions.InvalidCredentialException
 import mg.andrianina.chirp.domain.exceptions.InvalidTokenException
+import mg.andrianina.chirp.domain.exceptions.RateLimitException
 import mg.andrianina.chirp.domain.exceptions.SamePasswordException
 import mg.andrianina.chirp.domain.exceptions.UserAlreadyExistException
 import mg.andrianina.chirp.domain.exceptions.UserNotFoundException
@@ -40,6 +41,15 @@ class AuthExceptionHandler {
         e: SamePasswordException
     ) = mapOf(
         "code" to "SAME_PASSWORD",
+        "message" to e.message
+    )
+
+    @ExceptionHandler(RateLimitException::class)
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    fun onRateLimitException(
+        e: RateLimitException
+    ) = mapOf(
+        "code" to "RATE_LIMIT_EXCEEDED",
         "message" to e.message
     )
 

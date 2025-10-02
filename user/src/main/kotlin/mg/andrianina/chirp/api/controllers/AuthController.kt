@@ -10,6 +10,7 @@ import mg.andrianina.chirp.api.dto.RegisterRequest
 import mg.andrianina.chirp.api.dto.ResetPasswordRequest
 import mg.andrianina.chirp.api.dto.UserDto
 import mg.andrianina.chirp.api.mappers.toDto
+import mg.andrianina.chirp.infra.rate_limiting.EmailRateLimiter
 import mg.andrianina.chirp.service.AuthService
 import mg.andrianina.chirp.service.EmailVerificationService
 import mg.andrianina.chirp.service.PasswordResetService
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.RestController
 class AuthController(
     private val authService: AuthService,
     private val emailVerificationService: EmailVerificationService,
-    private val passwordResetService: PasswordResetService
+    private val passwordResetService: PasswordResetService,
+    private val emailRateLimiter: EmailRateLimiter
 ) {
 
     @PostMapping("/register")
@@ -61,6 +63,17 @@ class AuthController(
         @RequestBody body: RefreshRequest
     ) {
         authService.logout(body.refreshToken)
+    }
+
+    @PostMapping("/resend-verification")
+    fun resendVerification(
+        @Valid @RequestBody body: EmailRequest
+    ) {
+        emailRateLimiter.withRateLimit(
+            email = body.email
+        ) {
+            emailVerificationService.resendVerificationEmail(body.email)
+        }
     }
 
     @GetMapping("/verify")
