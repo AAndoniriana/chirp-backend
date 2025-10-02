@@ -39,7 +39,7 @@ class IpRateLimitInterceptor(
                         maxRequestPerIp = annotation.requests,
                         action = { true },
                     )
-                } catch (e: RateLimitException) {
+                } catch (_: RateLimitException) {
                     response.sendError(429)
                     false
                 }

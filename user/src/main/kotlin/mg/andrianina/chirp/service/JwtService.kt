@@ -73,8 +73,8 @@ class JwtService(
     }
 
     private fun parseAllClaims(token: String): Claims? {
-        val rawToken = if (token.startsWith("Bearer")) {
-            token.removePrefix("Bearer")
+        val rawToken = if (token.startsWith("Bearer ")) {
+            token.removePrefix("Bearer ")
         } else token
         return try {
             Jwts.parser()

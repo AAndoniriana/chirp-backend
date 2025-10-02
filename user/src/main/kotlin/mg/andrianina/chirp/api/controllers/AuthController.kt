@@ -11,10 +11,14 @@ import mg.andrianina.chirp.api.dto.RegisterRequest
 import mg.andrianina.chirp.api.dto.ResetPasswordRequest
 import mg.andrianina.chirp.api.dto.UserDto
 import mg.andrianina.chirp.api.mappers.toDto
+import mg.andrianina.chirp.api.util.requestUserId
 import mg.andrianina.chirp.infra.rate_limiting.EmailRateLimiter
 import mg.andrianina.chirp.service.AuthService
 import mg.andrianina.chirp.service.EmailVerificationService
 import mg.andrianina.chirp.service.PasswordResetService
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContext
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -133,11 +137,10 @@ class AuthController(
     fun changePassword(
         @RequestBody @Valid body: ChangePasswordRequest
     ) {
-        // TODO: extract userId from jwt
-        /*passwordResetService.changePassword(
-            userId = ,
+        passwordResetService.changePassword(
+            userId = requestUserId,
             oldPassword = body.oldPassword,
             newPassword = body.newPassword
-        )*/
+        )
     }
 }
