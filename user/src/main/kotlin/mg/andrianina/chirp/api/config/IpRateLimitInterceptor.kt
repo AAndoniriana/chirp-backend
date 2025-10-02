@@ -31,6 +31,7 @@ class IpRateLimitInterceptor(
                 return try {
                     ipRateLimiter.withIpRateLimit(
                         ipAddress = clientIp,
+                        endpoint = request.requestURI,
                         resetsIn = Duration.of(
                             annotation.duration,
                             annotation.timeUnit.toChronoUnit()
