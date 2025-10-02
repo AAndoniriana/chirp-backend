@@ -8,8 +8,6 @@ spring:
       username: "default"
       password: ${REDIS_PASSWORD}
       port: 14672
-#      connect-timeout: 5000ms
-#      timeout: 2000ms
 
   datasource:
     url: jdbc:postgresql://aws-1-eu-west-3.pooler.supabase.com:6543/postgres
@@ -50,3 +48,10 @@ chirp:
       expiry-hours: 24
     reset-password:
       expiry-minutes: 30
+
+nginx:
+  trusted-ips:
+    - "127.0.0.1" # nginx on same machine
+    - "::1" # IPv6 localhost
+    - "172.17.0.0/16" # nginx IP when using docker
+    - "10.0.0.5/32" # nginx server IP if it's on a separate machine
