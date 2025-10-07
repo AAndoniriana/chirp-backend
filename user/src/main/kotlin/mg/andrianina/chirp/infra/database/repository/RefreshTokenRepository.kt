@@ -1,6 +1,6 @@
 package mg.andrianina.chirp.infra.database.repository
 
-import mg.andrianina.chirp.domain.model.UserId
+import mg.andrianina.chirp.domain.type.UserId
 import mg.andrianina.chirp.infra.database.entity.RefreshTokenEntity
 import org.springframework.data.jpa.repository.JpaRepository
 

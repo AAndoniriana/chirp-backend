@@ -1,6 +1,6 @@
 package mg.andrianina.chirp.api.dto
 
-import mg.andrianina.chirp.domain.model.UserId
+import mg.andrianina.chirp.domain.type.UserId
 
 data class UserDto(
     val id: UserId,

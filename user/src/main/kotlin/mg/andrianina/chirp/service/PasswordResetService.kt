@@ -4,7 +4,7 @@ import mg.andrianina.chirp.domain.exceptions.InvalidCredentialException
 import mg.andrianina.chirp.domain.exceptions.InvalidTokenException
 import mg.andrianina.chirp.domain.exceptions.SamePasswordException
 import mg.andrianina.chirp.domain.exceptions.UserNotFoundException
-import mg.andrianina.chirp.domain.model.UserId
+import mg.andrianina.chirp.domain.type.UserId
 import mg.andrianina.chirp.infra.database.entity.PasswordResetTokenEntity
 import mg.andrianina.chirp.infra.database.repository.PasswordVerificationTokenRepository
 import mg.andrianina.chirp.infra.database.repository.RefreshTokenRepository

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
 import mg.andrianina.chirp.api.util.Password
-import mg.andrianina.chirp.domain.model.UserId
 
 data class ChangePasswordRequest @JsonCreator constructor(
     @JsonProperty("oldPassword")

@@ -1,5 +1,6 @@
 package mg.andrianina.chirp.service
 
+import mg.andrianina.chirp.domain.events.user.UserEvent
 import mg.andrianina.chirp.domain.exceptions.EmailNotVerifiedException
 import mg.andrianina.chirp.domain.exceptions.InvalidCredentialException
 import mg.andrianina.chirp.domain.exceptions.InvalidTokenException
@@ -7,12 +8,13 @@ import mg.andrianina.chirp.domain.exceptions.UserAlreadyExistException
 import mg.andrianina.chirp.domain.exceptions.UserNotFoundException
 import mg.andrianina.chirp.domain.model.AuthenticatedUser
 import mg.andrianina.chirp.domain.model.User
-import mg.andrianina.chirp.domain.model.UserId
+import mg.andrianina.chirp.domain.type.UserId
 import mg.andrianina.chirp.infra.database.entity.RefreshTokenEntity
 import mg.andrianina.chirp.infra.database.entity.UserEntity
 import mg.andrianina.chirp.infra.database.mappers.toUser
 import mg.andrianina.chirp.infra.database.repository.RefreshTokenRepository
 import mg.andrianina.chirp.infra.database.repository.UserRepository
+import mg.andrianina.chirp.infra.message_queue.EventPublisher
 import mg.andrianina.chirp.infra.security.PasswordEncoder
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -27,7 +29,8 @@ class AuthService(
     private val passwordEncoder: PasswordEncoder,
     private val jwtService: JwtService,
     private val refreshTokenRepository: RefreshTokenRepository,
-    private val emailVerificationService: EmailVerificationService
+    private val emailVerificationService: EmailVerificationService,
+    private val eventPublisher: EventPublisher
 ) {
     @Transactional
     fun register(
@@ -46,13 +49,22 @@ class AuthService(
 
         val savedUser = userRepository.saveAndFlush(
             UserEntity(
-                username = trimmedEmail,
+                username = username.trim(),
                 email = email.trim(),
                 hashedPassword = passwordEncoder.encode(password)
             )
         ).toUser()
 
-        emailVerificationService.createVerificationToken(trimmedEmail)
+        val token = emailVerificationService.createVerificationToken(trimmedEmail)
+
+        eventPublisher.publish(
+            UserEvent.Created(
+                userId = savedUser.id,
+                email = savedUser.email,
+                username = savedUser.username,
+                verificationToken = token.token,
+            )
+        )
 
         return savedUser
     }

@@ -1,7 +1,7 @@
 package mg.andrianina.chirp.api.util
 
 import mg.andrianina.chirp.domain.exceptions.UnauthorizedException
-import mg.andrianina.chirp.domain.model.UserId
+import mg.andrianina.chirp.domain.type.UserId
 import org.springframework.security.core.context.SecurityContextHolder
 
 val requestUserId: UserId
