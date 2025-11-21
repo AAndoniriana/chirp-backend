@@ -39,6 +39,21 @@ spring:
         format_sql: true
         show_sql: true
 
+  mail:
+    host: localhost
+    port: 1025
+    username: no-reply@chirp.com
+    properties:
+      mail:
+        smtp:
+          starttls:
+            required: true
+            enable: true
+          auth: true
+          connectionTimeout: 5000
+          timeout: 5000
+          writeTimeout: 5000
+
   rabbitmq:
     host: dog.lmq.cloudamqp.com
     password: ${RABBITMQ_PASSWORD}
@@ -65,6 +80,7 @@ jwt:
 
 chirp:
   email:
+    from: no-reply@chirp.com
     verification:
       expiry-hours: 24
     reset-password:

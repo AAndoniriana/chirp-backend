@@ -10,6 +10,8 @@ nginx:
   require-proxy: false
 
 chirp:
+  email:
+    url: "To determine later"
   rate-limit:
     ip:
       apply-limit: true
