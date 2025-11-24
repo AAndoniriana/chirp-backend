@@ -1,11 +1,6 @@
 package mg.andrianina.chirp.api.dto
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
-
-data class LoginRequest @JsonCreator constructor (
-    @JsonProperty("email")
+data class LoginRequest(
     val email: String,
-    @JsonProperty("password")
     val password: String
 )

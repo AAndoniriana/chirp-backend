@@ -1,5 +1,6 @@
 package mg.andrianina.chirp.service
 
+import mg.andrianina.chirp.domain.events.user.UserEvent
 import mg.andrianina.chirp.domain.exceptions.InvalidCredentialException
 import mg.andrianina.chirp.domain.exceptions.InvalidTokenException
 import mg.andrianina.chirp.domain.exceptions.SamePasswordException
@@ -9,6 +10,7 @@ import mg.andrianina.chirp.infra.database.entity.PasswordResetTokenEntity
 import mg.andrianina.chirp.infra.database.repository.PasswordVerificationTokenRepository
 import mg.andrianina.chirp.infra.database.repository.RefreshTokenRepository
 import mg.andrianina.chirp.infra.database.repository.UserRepository
+import mg.andrianina.chirp.infra.message_queue.EventPublisher
 import mg.andrianina.chirp.infra.security.PasswordEncoder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull
@@ -24,7 +26,8 @@ class PasswordResetService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
     @param:Value($$"${chirp.email.reset-password.expiry-minutes}") private val expiryMinutes: Long,
-    private val refreshTokenRepository: RefreshTokenRepository
+    private val refreshTokenRepository: RefreshTokenRepository,
+    private val eventPublisher: EventPublisher
 ) {
     @Transactional
     fun requestPasswordReset(email: String) {
@@ -39,7 +42,15 @@ class PasswordResetService(
         )
         passwordResetRepository.save(token)
 
-        // TODO: Inform notification service about password reset trigger to send an email
+        eventPublisher.publish(
+            event = UserEvent.RequestResetPassword(
+                userId = user.id!!,
+                username = user.username,
+                email = user.email,
+                verificationToken = token.token,
+                expiresInMinutes = expiryMinutes,
+            )
+        )
     }
 
     fun resetPassword(token: String, newPassword: String) {

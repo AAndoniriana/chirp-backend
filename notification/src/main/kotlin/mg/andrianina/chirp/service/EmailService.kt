@@ -15,7 +15,7 @@ class EmailService(
     private val javaMailSender: JavaMailSender,
     private val emailTemplateService: EmailTemplateService,
     @param:Value($$"${chirp.email.url}") private val baseUrl: String,
-    @param:Value($$"${chirp.email.from") private val emailFrom: String
+    @param:Value($$"${chirp.email.from}") private val emailFrom: String
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -25,10 +25,10 @@ class EmailService(
         userId: UserId,
         token : String
     ) {
-        logger.info("Sending verification email for user $userId")
+        logger.info("Sending verification email for user $userId with email $email")
 
         val verificationUrl = UriComponentsBuilder
-            .fromUriString("$baseUrl/api/auth/verification")
+            .fromUriString("$baseUrl/api/auth/verify")
             .queryParam("token", token)
             .build()
             .toUriString()
@@ -55,7 +55,7 @@ class EmailService(
         token : String,
         expiresIn: Duration
     ) {
-        logger.info("Sending password reset email for user $userId")
+        logger.info("Sending password reset email for user $userId with email $email")
 
         val resetPassordUrl = UriComponentsBuilder
             .fromUriString("$baseUrl/api/auth/reset-password")
@@ -85,7 +85,7 @@ class EmailService(
         html: String,
     ) {
         val message = javaMailSender.createMimeMessage()
-        MimeMessageHelper(message, true, "UFT-8").apply {
+        MimeMessageHelper(message, true, "UTF-8").apply {
             setFrom(emailFrom)
             setTo(to)
             setSubject(subject)
