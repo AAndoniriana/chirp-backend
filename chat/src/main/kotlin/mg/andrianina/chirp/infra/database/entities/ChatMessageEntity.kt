@@ -9,16 +9,16 @@ import jakarta.persistence.Id
 import jakarta.persistence.Index
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import mg.andrianina.chirp.domain.type.ChatId
+import mg.andrianina.chirp.domain.type.ChatMessageId
 import org.hibernate.annotations.CreationTimestamp
 import java.time.Instant
 
 @Entity
 @Table(
     schema = "chat_service",
-    name = "chats",
+    name = "chat_messages",
     indexes = [
         Index(
             name = "idx_chat_message_chat_id_created_at",
@@ -29,7 +29,7 @@ import java.time.Instant
 class ChatMessageEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    var id: ChatId? = null,
+    var id: ChatMessageId? = null,
     @Column(nullable = false)
     var content: String,
     @Column(
@@ -53,7 +53,7 @@ class ChatMessageEntity(
         updatable = false,
         insertable = false
     )
-    var sender: ChatParticipantsEntity? = null,
+    var sender: ChatParticipantEntity? = null,
     @CreationTimestamp
     var createdAt: Instant = Instant.now(),
 )

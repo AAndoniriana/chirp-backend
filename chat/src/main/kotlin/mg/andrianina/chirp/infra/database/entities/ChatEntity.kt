@@ -29,7 +29,7 @@ class ChatEntity(
         name = "creator_id",
         nullable = false,
     )
-    var creator: ChatParticipantsEntity,
+    var creator: ChatParticipantEntity,
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "chat_participants_cross_ref",
@@ -49,7 +49,7 @@ class ChatEntity(
             ),
         ]
     )
-    var participants: MutableSet<ChatParticipantsEntity> = mutableSetOf(),
+    var participants: MutableSet<ChatParticipantEntity> = mutableSetOf(),
     @CreationTimestamp
     var createdAt: Instant = Instant.now(),
 )
