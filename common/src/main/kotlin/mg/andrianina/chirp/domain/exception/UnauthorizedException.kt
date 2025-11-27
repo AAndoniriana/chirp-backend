@@ -1,4 +1,4 @@
-package mg.andrianina.chirp.domain.exceptions
+package mg.andrianina.chirp.domain.exception
 
 import java.lang.RuntimeException
 

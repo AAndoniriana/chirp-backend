@@ -5,7 +5,7 @@ import mg.andrianina.chirp.domain.exceptions.InvalidCredentialException
 import mg.andrianina.chirp.domain.exceptions.InvalidTokenException
 import mg.andrianina.chirp.domain.exceptions.RateLimitException
 import mg.andrianina.chirp.domain.exceptions.SamePasswordException
-import mg.andrianina.chirp.domain.exceptions.UnauthorizedException
+import mg.andrianina.chirp.domain.exception.UnauthorizedException
 import mg.andrianina.chirp.domain.exceptions.UserAlreadyExistException
 import mg.andrianina.chirp.domain.exceptions.UserNotFoundException
 import org.springframework.http.HttpStatus

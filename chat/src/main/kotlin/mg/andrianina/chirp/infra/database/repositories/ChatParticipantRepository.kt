@@ -5,8 +5,8 @@ import mg.andrianina.chirp.infra.database.entities.ChatParticipantEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
-interface ChartParticipantRepository: JpaRepository<ChatParticipantEntity, UserId> {
-    fun findByUserIdIn(userIds: List<UserId>): Set<ChatParticipantEntity>
+interface ChatParticipantRepository: JpaRepository<ChatParticipantEntity, UserId> {
+    fun findByUserIdIn(userIds: Set<UserId>): Set<ChatParticipantEntity>
 
     @Query("""
         SELECT p
