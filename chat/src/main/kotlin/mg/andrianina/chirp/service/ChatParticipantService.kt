@@ -1,0 +1,35 @@
+package mg.andrianina.chirp.service
+
+import mg.andrianina.chirp.domain.models.ChatParticipant
+import mg.andrianina.chirp.domain.type.UserId
+import mg.andrianina.chirp.infra.database.mappers.toChatParticipant
+import mg.andrianina.chirp.infra.database.mappers.toChatParticipantEntity
+import mg.andrianina.chirp.infra.database.repositories.ChatParticipantRepository
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.stereotype.Service
+
+@Service
+class ChatParticipantService(
+    private val chatParticipantRepository: ChatParticipantRepository,
+) {
+    fun createChatParticipant(
+        chatParticipant: ChatParticipant
+    ) {
+        chatParticipantRepository.save(
+            chatParticipant.toChatParticipantEntity()
+        )
+    }
+
+    fun findChatParticipantById(userId: UserId): ChatParticipant? {
+        return chatParticipantRepository.findByIdOrNull(userId)?.toChatParticipant()
+    }
+
+    fun findChatParticipantByEmailOrUsername(
+        query: String
+    ): ChatParticipant? {
+        val normalizedQuery = query.lowercase().trim()
+        return chatParticipantRepository.findByEmailOrUsername(
+            query = normalizedQuery
+        )?.toChatParticipant()
+    }
+}
